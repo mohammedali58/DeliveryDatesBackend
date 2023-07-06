@@ -52,8 +52,8 @@ export class ProductsUtility {
     const timeOffsetString = `${timeOffsetSign}${Math.abs(timeOffsetInHours)
       .toString()
       .padStart(2, "0")}:00`;
-    const formattedDate = t.toISOString().slice(0, 19) + timeOffsetString;
-    return formattedDate;
+    const deliveryDate = t.toISOString().slice(0, 19) + timeOffsetString;
+    return deliveryDate;
   }
 
   deliveryDates(
@@ -78,12 +78,12 @@ export class ProductsUtility {
       }
 
       //adjust the date format to match the given date format.
-      const formattedDate = this.formateDate(date);
+      const deliveryDate = this.formateDate(date);
 
       // add the date to the list if it is available to deliver the product
       availableDeliveryDates.push({
         postalCode,
-        formattedDate,
+        deliveryDate,
         isGreenDelivery,
       });
     }
@@ -94,7 +94,7 @@ export class ProductsUtility {
   sortDeliveryArray(
     deliveryArray: {
       postalCode: number;
-      formattedDate: string;
+      deliveryDate: string;
       isGreenDelivery: boolean;
     }[]
   ) {
@@ -103,8 +103,8 @@ export class ProductsUtility {
     threeDaysFromNow.setDate(now.getDate() + 3);
 
     deliveryArray.sort((a, b) => {
-      const aDate = new Date(a.formattedDate).getTime();
-      const bDate = new Date(b.formattedDate).getTime();
+      const aDate = new Date(a.deliveryDate).getTime();
+      const bDate = new Date(b.deliveryDate).getTime();
 
       if (a.isGreenDelivery && aDate < threeDaysFromNow.getTime()) {
         return -1;
